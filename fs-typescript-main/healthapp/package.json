@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "calculateBmi": "tsc && node bmiCalculator.js",
+    "calculateExercises": "tsc && node exerciseCalculator.js",
     "dev": "tsc --watch"
   },
   "devDependencies": {
