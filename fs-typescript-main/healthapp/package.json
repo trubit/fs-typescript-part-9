@@ -1,0 +1,12 @@
+{
+  "name": "healthapp",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "calculateBmi": "tsc && node bmiCalculator.js",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
