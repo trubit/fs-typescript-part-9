@@ -14,4 +14,25 @@ export const calculateBmi = (height, weight) => {
         return "Obesity";
     }
 };
-console.log(calculateBmi(180, 74)); // Normal weight
+const parseArguments = (args) => {
+    if (args.length < 4) {
+        throw new Error("Not enough arguments");
+    }
+    const height = Number(args[2]);
+    const weight = Number(args[3]);
+    if (isNaN(height) || isNaN(weight)) {
+        throw new Error("Provided values were not numbers!");
+    }
+    return { height, weight };
+};
+try {
+    const { height, weight } = parseArguments(process.argv);
+    console.log(calculateBmi(height, weight));
+}
+catch (error) {
+    let errorMessage = "Something went wrong.";
+    if (error instanceof Error) {
+        errorMessage = " Error: " + error.message;
+    }
+    console.log(errorMessage);
+}
