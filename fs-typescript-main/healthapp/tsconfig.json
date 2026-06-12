@@ -1,6 +1,14 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "types": ["node"]
+    "target": "esnext",
+    "rootDir": ".",
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true
   }
 }

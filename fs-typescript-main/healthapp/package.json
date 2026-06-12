@@ -1,14 +1,19 @@
 {
   "name": "healthapp",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "calculateBmi": "tsc && node bmiCalculator.js",
-    "calculateExercises": "tsc && node exerciseCalculator.js",
-    "dev": "tsc --watch"
+    "start": "node build/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "calculateBmi": "ts-node-dev --transpile-only bmiCalculator.ts",
+    "calculateExercises": "ts-node-dev --transpile-only exerciseCalculator.ts"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.9.3",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }

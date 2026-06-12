@@ -12,27 +12,20 @@ export const calculateBmi = (height: number, weight: number): string => {
   }
 };
 
-const parseArguments = (args: string[]): { height: number; weight: number } => {
-  if (args.length < 4) {
-    throw new Error("Not enough arguments");
-  }
+if (require.main === module) {
+  try {
+    const height = Number(process.argv[2]);
+    const weight = Number(process.argv[3]);
 
-  const height = Number(args[2]);
-  const weight = Number(args[3]);
-
-  if (isNaN(height) || isNaN(weight)) {
-    throw new Error("Provided values were not numbers!");
+    if (isNaN(height) || isNaN(weight)) {
+      throw new Error("malformatted parameters");
+    }
+    console.log(calculateBmi(height, weight));
+  } catch (error: unknown) {
+    let errorMessage = "Something went wrong.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.log("Error:", errorMessage);
   }
-  return { height, weight };
-};
-
-try {
-  const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
-  if (error instanceof Error) {
-    errorMessage = " Error: " + error.message;
-  }
-  console.log(errorMessage);
 }
