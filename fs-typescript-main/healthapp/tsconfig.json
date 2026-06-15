@@ -2,13 +2,13 @@
   "compilerOptions": {
     "target": "esnext",
     "rootDir": ".",
-    "noEmit": true,
+    "outDir": "build",
+    "noEmit": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "module": "commonjs",
-    "esModuleInterop": true,
-    "allowImportingTsExtensions": true
+    "esModuleInterop": true
   }
 }

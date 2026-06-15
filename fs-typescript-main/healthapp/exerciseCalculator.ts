@@ -61,13 +61,15 @@ const parseArguments = (
   return { target, dailyExercises };
 };
 
-try {
-  const { target, dailyExercises } = parseArguments(process.argv);
-  console.log(calculateExercises(dailyExercises, target));
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
-  if (error instanceof Error) {
-    errorMessage = "Error: " + error.message;
+if (require.main === module) {
+  try {
+    const { target, dailyExercises } = parseArguments(process.argv);
+    console.log(calculateExercises(dailyExercises, target));
+  } catch (error: unknown) {
+    let errorMessage = "Something went wrong.";
+    if (error instanceof Error) {
+      errorMessage = "Error: " + error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
