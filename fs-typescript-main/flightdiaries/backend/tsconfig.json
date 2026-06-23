@@ -3,12 +3,15 @@
     "target": "esnext",
     "noEmit": true,
     "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": ".",
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "strict" : true,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-  }
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "data"]
 }
