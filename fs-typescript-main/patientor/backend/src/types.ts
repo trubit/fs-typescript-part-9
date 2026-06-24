@@ -14,7 +14,6 @@ export const Gender = {
 
 export type Gender = (typeof Gender)[keyof typeof Gender];
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface BaseEntry {
   id: string;
   date: string;

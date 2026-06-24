@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { v1 as uuid } from "uuid";
 import diagnoses from "../data/diagnoses";
 import patientsData, { resetPatients } from "../data/patients";
-import { NewPatientSchema, NewEntrySchema, Patient, NonSensitivePatient, Entry } from "./types";
+import { NewPatientSchema, NewEntrySchema, Patient, NonSensitivePatient } from "./types";
 import cors from "cors";
 
 const app = express();
@@ -28,7 +28,7 @@ app.post("/api/patients/:id/entries", (req: Request, res: Response) => {
     return res.status(400).json({ error: parsed.error.issues });
   }
 
-  const newEntry = { id: uuid(), ...parsed.data } as Entry;
+  const newEntry = { id: uuid(), ...parsed.data };
   patient.entries.push(newEntry);
   return res.json(newEntry);
 });
