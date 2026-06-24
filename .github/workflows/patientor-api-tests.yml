@@ -1,0 +1,61 @@
+name: Patientor API Tests
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install patientor backend dependencies
+        working-directory: ./fs-typescript-main/patientor/backend
+        run: npm install --legacy-peer-deps
+
+      - name: Lint patientor backend
+        working-directory: ./fs-typescript-main/patientor/backend
+        run: npm run lint
+
+      - name: Start patientor backend server
+        working-directory: ./fs-typescript-main/patientor/backend
+        run: |
+          npm run dev &
+          echo $! > server.pid
+          sleep 5
+
+      - name: Install test dependencies
+        working-directory: ./fs-typescript-main/patientor-api-tests
+        run: npm install
+
+      - name: Install Playwright browsers
+        working-directory: ./fs-typescript-main/patientor-api-tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Run API tests
+        working-directory: ./fs-typescript-main/patientor-api-tests
+        run: npm test
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-playwright-report
+          path: fs-typescript-main/patientor-api-tests/playwright-report/
+          retention-days: 30
+
+      - name: Stop patientor backend server
+        if: always()
+        working-directory: ./fs-typescript-main/patientor/backend
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+          fi
