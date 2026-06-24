@@ -2,13 +2,23 @@ import express, { Request, Response } from "express";
 import { v1 as uuid } from "uuid";
 import diagnoses from "../data/diagnoses";
 import patientsData from "../data/patients";
-import { NewPatientSchema, Patient, PublicPatient } from "./types";
+import { NewPatientSchema, Patient, NonSensitivePatient } from "./types";
 import cors from "cors";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/api/patients/:id", (req: Request, res: Response) => {
+  const patient = patientsData.find((p) => p.id === req.params.id);
+
+  if (patient) {
+    res.json(patient);
+  } else {
+    res.status(404).json({ error: "Patient not found" });
+  }
+});
 
 app.post("/api/patients", (req: Request, res: Response) => {
   try {
@@ -21,6 +31,7 @@ app.post("/api/patients", (req: Request, res: Response) => {
     const patient: Patient = {
       id: uuid(),
       ...parsedPatient.data,
+      entries: [],
     };
     patientsData.push(patient);
 
@@ -47,12 +58,17 @@ app.get("/api/diagnoses", (_req: Request, res: Response) => {
 });
 
 app.get("/api/patients", (_req: Request, res: Response) => {
-  const publicPatients: PublicPatient[] = patientsData.map((patient) => {
-    const { ssn, ...publicPatient } = patient;
-    return publicPatient;
-  });
+  const nonSensitivePatients: NonSensitivePatient[] = patientsData.map(
+    ({ id, name, gender, dateOfBirth, occupation }) => ({
+      id,
+      name,
+      gender,
+      dateOfBirth,
+      occupation,
+    })
+  );
 
-  res.json(publicPatients);
+  res.json(nonSensitivePatients);
 });
 
 const PORT = 3001;
