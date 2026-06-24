@@ -2,7 +2,7 @@ name: Patientor E2E Tests
 
 on:
   push:
-    branches: [xmain, xmaster]
+    branches: [ main, master ]
 
 jobs:
   test:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Start patientor backend
         working-directory: ./patientor/backend
-        run: npm start &
+        run: npm run dev &
 
       - name: Install patientor frontend dependencies
         working-directory: ./patientor/frontend

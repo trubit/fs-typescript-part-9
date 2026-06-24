@@ -1,14 +1,37 @@
 import express, { Request, Response } from "express";
 import { v1 as uuid } from "uuid";
 import diagnoses from "../data/diagnoses";
-import patientsData from "../data/patients";
-import { NewPatientSchema, Patient, NonSensitivePatient } from "./types";
+import patientsData, { resetPatients } from "../data/patients";
+import { NewPatientSchema, NewEntrySchema, Patient, NonSensitivePatient, Entry } from "./types";
 import cors from "cors";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.post("/api/testing/reset", (_req: Request, res: Response) => {
+  resetPatients();
+  res.status(204).end();
+});
+
+app.post("/api/patients/:id/entries", (req: Request, res: Response) => {
+  const patient = patientsData.find((p) => p.id === req.params.id);
+
+  if (!patient) {
+    return res.status(404).json({ error: "Patient not found" });
+  }
+
+  const parsed = NewEntrySchema.safeParse(req.body);
+
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues });
+  }
+
+  const newEntry = { id: uuid(), ...parsed.data } as Entry;
+  patient.entries.push(newEntry);
+  return res.json(newEntry);
+});
 
 app.get("/api/patients/:id", (req: Request, res: Response) => {
   const patient = patientsData.find((p) => p.id === req.params.id);

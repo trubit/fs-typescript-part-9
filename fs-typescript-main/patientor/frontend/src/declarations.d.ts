@@ -5,4 +5,7 @@ declare module '@mui/icons-material' {
   export const Male: IconComponent;
   export const Female: IconComponent;
   export const Transgender: IconComponent;
+  export const LocalHospital: IconComponent;
+  export const Work: IconComponent;
+  export const MedicalServices: IconComponent;
 }
